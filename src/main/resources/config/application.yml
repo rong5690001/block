@@ -1,0 +1,24 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: ${jdbc.url}
+    username: ${jdbc.username}
+    password: ${jdbc.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+#    hikari:
+#      auto-commit: true
+#      minimum-idle: 2
+#      idle-timeout: 60000
+#      connection-timeout: 30000
+#      max-lifetime: 1800000
+#      pool-name: DatebookHikariCP
+#      maximum-pool-size: 5
+#mybatis:
+#  type-aliases-package: com.springboot.springbootmybatisannotation.model
+
+mybatis:
+  type-aliases-package: com.rong.block.mapper
+#  config-location: classpath:mybatis/mybatis-config.xml
+#  mapper-locations: com.rong.block.mapper/*.xml

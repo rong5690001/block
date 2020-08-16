@@ -1,4 +1,4 @@
-package com.rong.demo;
+package com.rong.block;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

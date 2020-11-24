@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rong.block.dao.UserMapper">
+
+  <select id="findUserByName" parameterType="java.lang.String" resultType="com.rong.block.pojo.UserDto">
+    SELECT u.id,u.nick_name,u.sex,u.dept_id,u.enabled,u.create_time,u.phone,u.email,u.job_id ,u.`password` ,u.username,ua.real_name avatar
+    FROM `user` u LEFT JOIN user_avatar ua ON u.avatar_id = ua.id  WHERE u.username = #{username}
+  </select>
+
+</mapper>

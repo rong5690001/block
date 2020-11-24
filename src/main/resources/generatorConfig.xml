@@ -5,7 +5,7 @@
 <generatorConfiguration>
     <properties resource="jdbc.properties"/>
     <!-- 数据库驱动 -->
-    <classPathEntry location="/Users/laura/.m2/repository/mysql/mysql-connector-java/8.0.21/mysql-connector-java-8.0.21.jar" />
+    <classPathEntry location="/Users/user/.m2/repository/mysql/mysql-connector-java/8.0.21/mysql-connector-java-8.0.21.jar" />
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <commentGenerator>
             <property name="suppressDate" value="true" />
@@ -30,8 +30,8 @@
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
         <!-- 生成映射文件的包名和位置XML文件 -->
-        <sqlMapGenerator targetPackage="com.rong.block.mapper"
-                         targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置 -->

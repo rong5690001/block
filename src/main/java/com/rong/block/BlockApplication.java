@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication(scanBasePackages = "com.rong.block", exclude = DataSourceAutoConfiguration.class)
-@MapperScan(basePackages = {"com.rong.block.mapper","com.rong.block.dao"})
+@MapperScan(basePackages = {"com.rong.block","com.rong.block.dao"})
 public class BlockApplication {
 
     public static void main(String[] args) {

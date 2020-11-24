@@ -35,11 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     private final UserDetailsService userDetailsService;
-    private final CorsFilter corsFilter;
+//    private final CorsFilter corsFilter;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService, CorsFilter corsFilter) {
+    public WebSecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.corsFilter = corsFilter;
+//        this.corsFilter = corsFilter;
     }
 
     /**
@@ -66,9 +66,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();//解决 in a frame because it set 'X-Frame-Options' to 'DENY' 问题
         //http.anonymous().disable();
         http
-                // 禁用 CSRF
+                // 禁用 CSRF (不设置这个接口报403)
                 .csrf().disable()
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/auth/**", "/initUserData")//不拦截登录相关方法
                 .permitAll()

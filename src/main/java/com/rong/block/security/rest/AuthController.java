@@ -61,7 +61,7 @@ public class AuthController {
         // 查询验证码
         String code = (String) redisUtils.get(authUser.getUuid());
         // 清除验证码
-        redisUtils.del(authUser.getUuid());
+//        redisUtils.del(authUser.getUuid());
         if (StringUtils.isBlank(code)) {
             throw new BadRequestException("验证码不存在或已过期");
         }
@@ -105,6 +105,8 @@ public class AuthController {
             result = captcha.text();
         }
         String uuid = properties.getCodeKey() + IdUtil.simpleUUID();
+        System.out.println("uuid:" + uuid);
+        System.out.println("code:" + result);
         // 保存
         redisUtils.set(uuid, result, expiration, TimeUnit.MINUTES);
         // 验证码信息

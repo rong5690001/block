@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/yshop2?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://localhost:3306/yshop2?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull
     username: root
     password: chenhuarong
     driver-class-name: com.mysql.jdbc.Driver
@@ -41,7 +41,7 @@ jwt:
 
 #登录图形验证码有效时间/分钟
 loginCode:
-  expiration: 2
+  expiration: 2000000
 
 #密码加密传输，前端公钥加密，后端私钥解密
 rsa:

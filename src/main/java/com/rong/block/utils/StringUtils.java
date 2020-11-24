@@ -6,12 +6,6 @@
 */
 package com.rong.block.utils;
 
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import eu.bitwalker.useragentutils.Browser;
-import eu.bitwalker.useragentutils.UserAgent;
-
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -142,21 +136,21 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         return ip;
     }
-
-    /**
-     * 根据ip获取详细地址
-     */
-    public static String getCityInfo(String ip) {
-        String api = String.format(YshopConstant.Url.IP_URL,ip);
-        JSONObject object = JSONUtil.parseObj(HttpUtil.get(api));
-        return object.get("addr", String.class);
-    }
-
-    public static String getBrowser(HttpServletRequest request){
-        UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-        Browser browser = userAgent.getBrowser();
-        return browser.getName();
-    }
+//
+//    /**
+//     * 根据ip获取详细地址
+//     */
+//    public static String getCityInfo(String ip) {
+//        String api = String.format(YshopConstant.Url.IP_URL,ip);
+//        JSONObject object = JSONUtil.parseObj(HttpUtil.get(api));
+//        return object.get("addr", String.class);
+//    }
+//
+//    public static String getBrowser(HttpServletRequest request){
+//        UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+//        Browser browser = userAgent.getBrowser();
+//        return browser.getName();
+//    }
 
     /**
      * 获得当天是周几

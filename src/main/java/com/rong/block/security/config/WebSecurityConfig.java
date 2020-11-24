@@ -1,9 +1,9 @@
 /**
-* Copyright (C) 2018-2020
-* All rights reserved, Designed By www.yixiang.co
-* 注意：
-* 本软件为www.yixiang.co开发研制
-*/
+ * Copyright (C) 2018-2020
+ * All rights reserved, Designed By www.yixiang.co
+ * 注意：
+ * 本软件为www.yixiang.co开发研制
+ */
 package com.rong.block.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  prePostEnabled :决定Spring Security的前注解是否可用 [@PreAuthorize,@PostAuthorize,..]
@@ -26,13 +28,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 //开启 Spring Security 方法级安全注解 @EnableGlobalMethodSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true,jsr250Enabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    @Autowired
 //    private CustomAccessDeniedHandler customAccessDeniedHandler;
-    @Autowired
-    private UserDetailsService userDetailsService;
+
+    private final UserDetailsService userDetailsService;
+    private final CorsFilter corsFilter;
+
+    public WebSecurityConfig(UserDetailsService userDetailsService, CorsFilter corsFilter) {
+        this.userDetailsService = userDetailsService;
+        this.corsFilter = corsFilter;
+    }
 
     /**
      * 静态资源设置
@@ -48,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 "/layui/**"
         );
     }
+
     /**
      * http请求设置
      */
@@ -56,22 +65,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         //http.csrf().disable(); //注释就是使用 csrf 功能
         http.headers().frameOptions().disable();//解决 in a frame because it set 'X-Frame-Options' to 'DENY' 问题
         //http.anonymous().disable();
-        http.authorizeRequests()
-                .antMatchers("/login/**","/initUserData")//不拦截登录相关方法
+        http
+                // 禁用 CSRF
+                .csrf().disable()
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers("/auth/**", "/initUserData")//不拦截登录相关方法
                 .permitAll()
                 //.antMatchers("/user").hasRole("ADMIN")  // user接口只有ADMIN角色的可以访问
-//            .anyRequest()
-//            .authenticated()// 任何尚未匹配的URL只需要验证用户即可访问
                 .anyRequest()
-                .access("@rbacPermission.hasPermission(request, authentication)")//根据账号权限访问
-                .and()
-                .formLogin()
-                .loginPage("/")
-                .loginPage("/login")   //登录请求页
-                .loginProcessingUrl("/login")  //登录POST请求路径
-                .usernameParameter("username") //登录用户名参数
-                .passwordParameter("password") //登录密码参数
-                .defaultSuccessUrl("/main")   //默认登录成功页面
+                .authenticated()// 任何尚未匹配的URL只需要验证用户即可访问
+//                .anyRequest()
+//                .access("@rbacPermission.hasPermission(request, authentication)")//根据账号权限访问
+//                .and()
+//                .formLogin()
+//                .loginPage("/")
+//                .loginPage("/login")   //登录请求页
+//                .loginProcessingUrl("/login")  //登录POST请求路径
+//                .usernameParameter("username") //登录用户名参数
+//                .passwordParameter("password") //登录密码参数
+//                .defaultSuccessUrl("/main")   //默认登录成功页面
                 .and()
                 .exceptionHandling()
 //                .accessDeniedHandler(customAccessDeniedHandler) //无权限处理器
@@ -80,6 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .logoutSuccessUrl("/login?logout");  //退出登录成功URL
 
     }
+
     /**
      * 自定义获取用户信息接口
      */
